@@ -7,6 +7,8 @@ library(cartography)
 #loading the geographics files
 mask_file <- sf::st_read("rawdata/shapes/haiti_shape.shp")
 
+mask_file <- sf::st_read("rawdata/shapes/HTI_AdminBoundaries.shp")
+
 raster_file <- raster::raster("rawdata/rasters/haiti_srtm_wgs_18N.tif")
 
 resample_raster <- raster::aggregate(raster_file, fact = 50, fun = mean) #resampling the raster file
@@ -17,7 +19,7 @@ png("output/plots/haiti_TanakaContour_50.png", #creating the map file
   height = 850,
   pointsize = 6,
   res = 300
-) 
+)
 par(mar = c(0, 0, 1, 0)) #setting the margin
 
 #tanaka contour
@@ -31,7 +33,7 @@ tanaka::tanaka(
   ))),
   light = "#ffffff70",
   dark = "#00000090",
-  mask = mask_file
+  mask = mask_file$geometry
 )
 #legend configuration
 cartography::legendChoro(
@@ -53,7 +55,7 @@ cartography::layoutLayer(
   frame = TRUE,
   horiz = TRUE,
   col = "black",
-  author = "@TRedgi, 2019",
+  author = "by Réginal, 2021",
   sources = "Sources: NASA SRTM Version 3.0",
   north = TRUE,
   theme = NULL,
